@@ -18,13 +18,8 @@ object Application extends Controller {
       body = Enumerator(toJson(res))
     )
     request.headers.get("If-None-Match") match {
-      case Some(etag) =>
-        if (md5 == etag) {
-          NotModified
-        } else {
-          simple
-        }
-      case None => simple
+      case Some(etag) if (md5 == etag) => NotModified
+      case _ => simple
     }
   }
 }
